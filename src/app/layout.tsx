@@ -26,7 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <header className="bg-gray-200 text-white p-4">
           <div className="container mx-auto flex justify-between items-center">
             <NavLinks />
@@ -34,7 +36,9 @@ export default function RootLayout({
         </header>
 
         <main className="flex-grow p-4">{children}</main>
-        <footer className="bg-gray-800 text-white p-4 text-center">© 2024 Все права защищены</footer>
+        <footer className="bg-gray-800 text-white p-4 text-center">
+          © 2024 Все права защищены
+        </footer>
       </body>
     </html>
   );

@@ -10,7 +10,9 @@ import Link from "next/link";
 // }
 
 async function fetchRecipeById(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes/${id}`, { cache: "no-store" });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes/${id}`, {
+    cache: "no-store",
+  });
   if (!res.ok) {
     throw new Error("404");
   }
@@ -18,7 +20,11 @@ async function fetchRecipeById(id: string) {
   return await res.json();
 }
 
-export default async function RecipesPage({ params }: { params: { id: string } }) {
+export default async function RecipesPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const recipe: Recipe = await fetchRecipeById(params.id);
   return (
     <div className="container mx-auto p-4">

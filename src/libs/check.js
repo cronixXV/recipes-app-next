@@ -3,6 +3,7 @@ import { z, ZodError } from "zod";
 export const schema = z.object({
   NEXT_PUBLIC_API_URL: z.string(),
   TOKEN: z.string().optional(),
+  NEXT_PUBLIC_MAIN_RECIPE_ID: z.string().optional(),
 });
 
 async function main() {
