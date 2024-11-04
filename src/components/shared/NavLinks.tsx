@@ -24,7 +24,9 @@ export function NavLinks() {
 
       <Link
         className={`px-3 py-2 rounded-md text-sm font-medium ${
-          pathname === "/recipes" ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-200"
+          pathname === "/recipes"
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:bg-gray-200"
         }`}
         href="/recipes"
       >
@@ -33,7 +35,9 @@ export function NavLinks() {
 
       <Link
         className={`px-3 py-2 rounded-md text-sm font-medium ${
-          pathname === "/recipes-csr" ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-200"
+          pathname === "/recipes-csr"
+            ? "bg-blue-500 text-white"
+            : "text-gray-700 hover:bg-gray-200"
         }`}
         href="/recipes-csr"
       >

@@ -22,4 +22,4 @@ export default function IngredientsList({ ingredients }: IngredientsListProps) {
     </>
   );
 }
-export type { IngredientsListProps, Ingredient };
+export type { Ingredient };

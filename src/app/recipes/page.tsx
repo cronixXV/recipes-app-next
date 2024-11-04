@@ -11,11 +11,14 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Книга рецептов",
-  description: "Книга рецептов. Делитесь любимыми рецептами и открывайте для себя новые",
+  description:
+    "Книга рецептов. Делитесь любимыми рецептами и открывайте для себя новые",
 };
 
 async function fetchRecipes() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes`, { cache: "no-store" });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes`, {
+    cache: "no-store",
+  });
   if (!res.ok) {
     throw new Error("404");
   }

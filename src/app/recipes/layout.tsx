@@ -5,7 +5,9 @@ export default function RecipesLayout({
 }>) {
   return (
     <div className="container mx-auto p-4">
-      <div className="text-4xl font-bold mb-6">Книга для публикации рецептов</div>
+      <div className="text-4xl font-bold mb-6">
+        Книга для публикации рецептов
+      </div>
       <div>{children}</div>
     </div>
   );

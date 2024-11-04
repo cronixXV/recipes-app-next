@@ -34,24 +34,24 @@ const recipes = [
     title: "Спагетти Карбонара",
     description: "Классическая итальянская паста.",
     image: "/images/carbonara.jpg",
-    ingredients: [
-      { id: 1, name: "Спагетти", amount: "200 г" },
-      { id: 2, name: "Яйца", amount: "2 шт" },
-      { id: 3, name: "Пармезан", amount: "50 г" },
-      { id: 4, name: "Бекон", amount: "100 г" },
-    ],
+    // ingredients: [
+    //   { id: 1, name: "Спагетти", amount: "200 г" },
+    //   { id: 2, name: "Яйца", amount: "2 шт" },
+    //   { id: 3, name: "Пармезан", amount: "50 г" },
+    //   { id: 4, name: "Бекон", amount: "100 г" },
+    // ],
   },
   {
     id: 2,
     title: "Пицца Маргарита",
     description: "Свежая пицца с помидорами, базиликом и моцареллой.",
     image: "/images/pizza.jpg",
-    ingredients: [
-      { id: 1, name: "Тесто", amount: "1 шт" },
-      { id: 2, name: "Томаты", amount: "2 шт" },
-      { id: 3, name: "Моцарелла", amount: "100 г" },
-      { id: 4, name: "Базилик", amount: "по вкусу" },
-    ],
+    // ingredients: [
+    //   { id: 1, name: "Тесто", amount: "1 шт" },
+    //   { id: 2, name: "Томаты", amount: "2 шт" },
+    //   { id: 3, name: "Моцарелла", amount: "100 г" },
+    //   { id: 4, name: "Базилик", amount: "по вкусу" },
+    // ],
   },
   {
     id: 3,
