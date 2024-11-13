@@ -14,6 +14,7 @@ interface RecipeCardProps {
   title: string;
   description: string;
   image: string;
+  // chefName: string | null;
 }
 
 export default function RecipeCard({
@@ -35,13 +36,13 @@ export default function RecipeCard({
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ingredients/${id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/recipes/${id}`
       );
       if (!response.ok) {
         throw new Error("Ошибка при загрузке ингредиентов");
       }
       const data = await response.json();
-      setIngredients(data);
+      setIngredients(data.ingredients);
       setShowIngredients(true);
     } catch (error) {
       console.error("Ошибка при получении ингредиентов:", error);
