@@ -10,7 +10,7 @@ export async function GET(
   try {
     const recipe = await prisma.recipe.findFirst({
       where: { id: recipeId },
-      include: { ingredients: true },
+      include: { ingredients: true, Chef: true },
     });
 
     if (!recipe) {

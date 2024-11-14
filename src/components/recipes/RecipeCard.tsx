@@ -14,7 +14,7 @@ interface RecipeCardProps {
   title: string;
   description: string;
   image: string;
-  // chefName: string | null;
+  chef?: string;
 }
 
 export default function RecipeCard({
@@ -22,6 +22,7 @@ export default function RecipeCard({
   title,
   description,
   image,
+  chef,
 }: RecipeCardProps) {
   const [liked, setLiked] = useState(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -59,6 +60,8 @@ export default function RecipeCard({
     }
   };
 
+  // console.log(chef);
+
   return (
     <li className="border p-4 rounded-lg shadow-lg">
       <Link href={`/recipes/${id}`}>
@@ -71,6 +74,7 @@ export default function RecipeCard({
         />
         <h3 className="text-xl font-semibold">{title}</h3>
         <p className="text-sm text-gray-700 mb-4">{description}</p>
+        {chef && <p className="text-sm text-gray-700 mb-4">Шеф: {chef}</p>}
       </Link>
       <button
         onClick={toggleLike}

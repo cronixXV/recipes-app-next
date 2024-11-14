@@ -3,7 +3,7 @@ import { prisma } from "@/libs/prisma";
 
 export async function GET() {
   const recipes = await prisma.recipe.findMany({
-    include: { ingredients: true },
+    include: { ingredients: true, Chef: true },
   }); // призма возвращает промис
 
   return NextResponse.json(recipes);

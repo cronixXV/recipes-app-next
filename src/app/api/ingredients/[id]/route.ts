@@ -21,44 +21,19 @@ export async function GET(
   return NextResponse.json(ingredient);
 }
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const ingredientId = parseInt(params.id, 10);
-  try {
-    const ingredient = await prisma.ingredient.findFirst({
-      where: { id: ingredientId },
-    });
-
-    if (!ingredient) {
-      return NextResponse.json(
-        { error: "Ингредиент не найден" },
-        { status: 404, statusText: "Not Found" }
-      );
-    }
-    return NextResponse.json({ ingredient });
-  } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500, statusText: "Server Error" }
-      );
-    } else {
-      return NextResponse.json(
-        { error: "Ошибка запроса" },
-        { status: 500, statusText: "Server Error" }
-      );
-    }
-  }
-}
-
 export async function PATCH(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   const ingredientId = parseInt(params.id, 10);
   const { name, amount } = await request.json();
+
+  if (!name || !amount) {
+    return NextResponse.json(
+      { error: "Оба поля должны быть заполнены" },
+      { status: 400, statusText: "Bad Request" }
+    );
+  }
 
   try {
     const updatedIngredient = await prisma.ingredient.update({

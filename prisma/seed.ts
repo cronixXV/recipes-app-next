@@ -12,6 +12,10 @@ const recipes = [
       { name: "Пармезан", amount: "50 г" },
       { name: "Бекон", amount: "100 г" },
     ],
+    chef: {
+      name: "Рамзи",
+      bio: "Лучший",
+    },
   },
   {
     title: "Пицца Маргарита",
@@ -54,6 +58,7 @@ async function main() {
             amount: ingredient.amount,
           })),
         },
+        Chef: recipe.chef ? { create: { ...recipe.chef } } : undefined,
       },
     });
   }
