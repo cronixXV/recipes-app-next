@@ -63,7 +63,7 @@ export default function RecipeCard({
   // console.log(chef);
 
   return (
-    <li className="border p-4 rounded-lg shadow-lg">
+    <li className="border p-4 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700">
       <Link href={`/recipes/${id}`}>
         <Image
           src={image}
@@ -72,9 +72,17 @@ export default function RecipeCard({
           alt={title}
           className="mb-4 rounded-lg"
         />
-        <h3 className="text-xl font-semibold">{title}</h3>
-        <p className="text-sm text-gray-700 mb-4">{description}</p>
-        {chef && <p className="text-sm text-gray-700 mb-4">Шеф: {chef}</p>}
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+          {title}
+        </h3>
+        <p className="text-sm text-gray-700 dark:text-gray-400 mb-4">
+          {description}
+        </p>
+        {chef && (
+          <p className="text-sm text-gray-700  dark:text-gray-400 mb-4">
+            Шеф: {chef}
+          </p>
+        )}
       </Link>
       <button
         onClick={toggleLike}
