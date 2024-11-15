@@ -1,5 +1,5 @@
 import RecipeCard from "@/components/recipes/RecipeCard";
-import type { Recipe } from "@prisma/client";
+import type { Recipe, Chef } from "@prisma/client";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,6 +19,11 @@ async function fetchRecipes() {
   return await res.json();
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface MyRecipe extends Recipe {
+  Chef?: Chef;
+}
+
 export default async function RecipesPage() {
   const recipes = await fetchRecipes();
   // console.log(recipes)
@@ -33,6 +38,7 @@ export default async function RecipesPage() {
             title={recipe.title}
             description={recipe.description}
             image={recipe.imageUrl}
+            chef={recipe.Chef?.name}
           />
         ))}
       </ul>
