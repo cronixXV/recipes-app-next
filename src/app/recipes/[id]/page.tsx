@@ -1,14 +1,6 @@
 import RecipeCard from "@/components/recipes/RecipeCard";
 import type { Recipe } from "@prisma/client";
 import Link from "next/link";
-// import Image from "next/image"
-
-// interface Recipe {
-//   id: number
-//   title: string
-//   description: string
-//   image: string
-// }
 
 async function fetchRecipeById(id: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes/${id}`, {
@@ -36,6 +28,8 @@ export default async function RecipesPage({
           title={recipe.title}
           description={recipe.description}
           image={recipe.imageUrl}
+          rating={recipe.rating ?? 0}
+          chef={recipe.Chef?.name}
         />
       </ul>
       <div className="mt-8">

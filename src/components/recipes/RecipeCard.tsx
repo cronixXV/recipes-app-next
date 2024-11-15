@@ -8,6 +8,8 @@ import Link from "next/link";
 import IngredientsList, {
   Ingredient,
 } from "@/components/ingredients/IngredientsList";
+import { Card } from "flowbite-react";
+import { RatingRecipe } from "@/components/recipes/RatingRecipe";
 
 interface RecipeCardProps {
   id: number;
@@ -15,6 +17,7 @@ interface RecipeCardProps {
   description: string;
   image: string;
   chef?: string;
+  rating?: number;
 }
 
 export default function RecipeCard({
@@ -23,6 +26,7 @@ export default function RecipeCard({
   description,
   image,
   chef,
+  rating,
 }: RecipeCardProps) {
   const [liked, setLiked] = useState(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -60,33 +64,36 @@ export default function RecipeCard({
     }
   };
 
-  // console.log(chef);
-
   return (
-    <li className="border p-4 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700">
-      <Link href={`/recipes/${id}`}>
-        <Image
-          src={image}
-          width={300}
-          height={200}
-          alt={title}
-          className="mb-4 rounded-lg"
-        />
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-          {title}
-        </h3>
-        <p className="text-sm text-gray-700 dark:text-gray-400 mb-4">
-          {description}
+    <Card
+      className="border p-4 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700"
+      renderImage={() => (
+        <Link href={`/recipes/${id}`}>
+          <Image
+            src={image}
+            width={300}
+            height={200}
+            alt={title}
+            className="mb-1 rounded-lg mx-auto"
+          />
+        </Link>
+      )}
+    >
+      {typeof rating === "number" && <RatingRecipe rating={rating} />}
+      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        {title}
+      </h5>
+      <p className="text-sm text-gray-700 dark:text-gray-400 mb-2">
+        {description}
+      </p>
+      {chef && (
+        <p className="text-sm text-gray-700 dark:text-gray-400 mb-2">
+          Шеф: {chef}
         </p>
-        {chef && (
-          <p className="text-sm text-gray-700  dark:text-gray-400 mb-4">
-            Шеф: {chef}
-          </p>
-        )}
-      </Link>
+      )}
       <button
         onClick={toggleLike}
-        className="flex items-center space-x-2 mt-4"
+        className="flex items-center space-x-2"
       >
         {liked ? (
           <SolidHeartIcon className="w-6 h-6 text-red-500" />
@@ -115,6 +122,6 @@ export default function RecipeCard({
           <IngredientsList ingredients={ingredients} />
         </div>
       )}
-    </li>
+    </Card>
   );
 }
