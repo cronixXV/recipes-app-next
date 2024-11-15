@@ -14,6 +14,7 @@ interface RecipeCardProps {
   title: string;
   description: string;
   image: string;
+  chef?: string;
 }
 
 export default function RecipeCard({
@@ -21,6 +22,7 @@ export default function RecipeCard({
   title,
   description,
   image,
+  chef,
 }: RecipeCardProps) {
   const [liked, setLiked] = useState(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -35,13 +37,13 @@ export default function RecipeCard({
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ingredients/${id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/recipes/${id}`
       );
       if (!response.ok) {
         throw new Error("Ошибка при загрузке ингредиентов");
       }
       const data = await response.json();
-      setIngredients(data);
+      setIngredients(data.ingredients);
       setShowIngredients(true);
     } catch (error) {
       console.error("Ошибка при получении ингредиентов:", error);
@@ -58,6 +60,8 @@ export default function RecipeCard({
     }
   };
 
+  // console.log(chef);
+
   return (
     <li className="border p-4 rounded-lg shadow-lg">
       <Link href={`/recipes/${id}`}>
@@ -70,6 +74,7 @@ export default function RecipeCard({
         />
         <h3 className="text-xl font-semibold">{title}</h3>
         <p className="text-sm text-gray-700 mb-4">{description}</p>
+        {chef && <p className="text-sm text-gray-700 mb-4">Шеф: {chef}</p>}
       </Link>
       <button
         onClick={toggleLike}

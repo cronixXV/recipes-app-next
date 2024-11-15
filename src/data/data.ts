@@ -34,6 +34,7 @@ const recipes = [
     title: "Спагетти Карбонара",
     description: "Классическая итальянская паста.",
     image: "/images/carbonara.jpg",
+
     // ingredients: [
     //   { id: 1, name: "Спагетти", amount: "200 г" },
     //   { id: 2, name: "Яйца", amount: "2 шт" },
