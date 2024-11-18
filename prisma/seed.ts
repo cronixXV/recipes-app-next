@@ -12,11 +12,13 @@ const recipes = [
       { name: "Пармезан", amount: "50 г" },
       { name: "Бекон", amount: "100 г" },
     ],
+    rating: 5,
     chef: {
       name: "Рамзи",
       bio: "Лучший",
     },
   },
+
   {
     title: "Пицца Маргарита",
     description: "Свежая пицца с помидорами, базиликом и моцареллой.",
@@ -27,6 +29,7 @@ const recipes = [
       { name: "Моцарелла", amount: "100 г" },
       { name: "Базилик", amount: "по вкусу" },
     ],
+    rating: 5,
   },
   {
     title: "Салат Цезарь",
@@ -38,6 +41,7 @@ const recipes = [
       { name: "Соус Цезарь", amount: "30 г" },
       { name: "Пармезан", amount: "20 г" },
     ],
+    rating: 5,
   },
 ];
 
@@ -59,6 +63,7 @@ async function main() {
           })),
         },
         Chef: recipe.chef ? { create: { ...recipe.chef } } : undefined,
+        rating: recipe.rating,
       },
     });
   }

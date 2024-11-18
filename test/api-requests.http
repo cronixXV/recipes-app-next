@@ -19,7 +19,8 @@ Content-Type: application/json
     { "name": "Яйца", "amount": "3 шт" },
     { "name": "Молоко", "amount": "50 мл" },
     { "name": "Сыр", "amount": "50 г" }
-  ]
+  ],
+  "rating": 5
 }
 
 ### Обновление рецепта по id (замените {id} на нужный id)
@@ -33,7 +34,7 @@ Content-Type: application/json
 }
 
 ### Удаление рецепта по id (замените {id} на нужный id)
-DELETE http://localhost:3000/api/recipes/5
+DELETE http://localhost:3000/api/recipes/4
 
 ### Получение списка рецептов (с ингридиентами и тегами)
 GET http://localhost:3000/api/recipes/with-tags
