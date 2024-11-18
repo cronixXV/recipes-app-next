@@ -19,14 +19,12 @@ async function fetchRecipes() {
   return await res.json();
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface MyRecipe extends Recipe {
   Chef?: Chef;
 }
 
 export default async function RecipesPage() {
   const recipes = await fetchRecipes();
-  // console.log("APIResponse:", recipes);
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl mb-6">Рецепты</h1>

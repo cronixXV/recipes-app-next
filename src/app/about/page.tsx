@@ -24,7 +24,7 @@ export default function AboutPage() {
         <Image
           className="w-full"
           src="/images/pizza.jpg"
-          alt="Ой, что-то упало-уже чиним"
+          alt="Рецепт вкусной пиццы"
           width={300}
           height={300}
         />

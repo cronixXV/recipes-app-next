@@ -79,7 +79,7 @@ export default function RecipeCard({
         </Link>
       )}
     >
-      {typeof rating === "number" && <RatingRecipe rating={rating} />}
+      {rating && <RatingRecipe rating={rating} />}
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {title}
       </h5>
