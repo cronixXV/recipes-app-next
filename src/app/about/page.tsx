@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,19 +8,14 @@ export const metadata: Metadata = {
   title: "О нас",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const session = await getServerSession();
+  if (!session) {
+    redirect("/auth/login?callbackUrl=/about");
+  }
   // const classDynamic = `text-blue-${"400"}`;
 
   return (
-    // <div className="container mx-auto p-4">
-    //   <h1 className="text-4xl font-bold mb-4">О нас</h1>
-    //   <p className={`text-lg ${classDynamic} dark:text-gray-400`}>
-    //     Добро пожаловать на наш сайт рецептов! Здесь вы найдете лучшие рецепты
-    //     из разных уголков мира. Мы стремимся поделиться с вами не только
-    //     вкусными рецептами, но и полезной информацией о приготовлении пищи.
-    //   </p>
-    // </div>
-
     <section className="bg-white dark:bg-gray-900">
       <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
         <Image
