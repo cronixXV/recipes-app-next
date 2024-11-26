@@ -8,7 +8,7 @@ import Link from "next/link";
 import IngredientsList, {
   Ingredient,
 } from "@/components/ingredients/IngredientsList";
-import { Card } from "flowbite-react";
+import { Button, Card } from "flowbite-react";
 import { RatingRecipe } from "@/components/recipes/RatingRecipe";
 
 interface RecipeCardProps {
@@ -18,6 +18,10 @@ interface RecipeCardProps {
   image: string;
   chef?: string;
   rating?: number;
+  onEdit: (
+    id: number,
+    data: Partial<{ title: string; description: string; imageUrl: string }>
+  ) => void;
 }
 
 export default function RecipeCard({
@@ -27,11 +31,18 @@ export default function RecipeCard({
   image,
   chef,
   rating,
+  onEdit,
 }: RecipeCardProps) {
   const [liked, setLiked] = useState(false);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [showIngredients, setShowIngredients] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    title,
+    description,
+    imageUrl: image,
+  });
 
   const toggleLike = () => {
     setLiked(!liked);
@@ -64,6 +75,43 @@ export default function RecipeCard({
     }
   };
 
+  const handleSave = () => {
+    onEdit(id, formData);
+    setIsEditing(false);
+  };
+
+  if (isEditing) {
+    return (
+      <div className="card">
+        <input
+          type="text"
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+        />
+        <textarea
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          value={formData.imageUrl}
+          onChange={(e) =>
+            setFormData({ ...formData, imageUrl: e.target.value })
+          }
+        />
+        <Button onClick={handleSave}>Сохранить</Button>
+        <Button
+          color="gray"
+          onClick={() => setIsEditing(false)}
+        >
+          Отмена
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <Card
       className="border p-4 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700"
@@ -79,6 +127,7 @@ export default function RecipeCard({
         </Link>
       )}
     >
+      <Button onClick={() => setIsEditing(true)}>Редактировать</Button>
       {rating && <RatingRecipe rating={rating} />}
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {title}

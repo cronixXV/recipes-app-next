@@ -1,6 +1,9 @@
 import RecipeCard from "@/components/recipes/RecipeCard";
 import type { Recipe, Chef } from "@prisma/client";
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import authOptions from "@/configs/auth";
 
 export const metadata: Metadata = {
   title: "Книга рецептов",
@@ -9,6 +12,12 @@ export const metadata: Metadata = {
 };
 
 async function fetchRecipes() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/auth/login?callbackUrl=/about");
+  }
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes`, {
     cache: "no-store",
   });

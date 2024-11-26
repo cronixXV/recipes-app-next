@@ -9,6 +9,7 @@ import RecipeForm from "./RecipeForm";
 // import { toast } from "react-toastify";
 // import { use } from "react";
 import { useAddRecipeMutation } from "@/hooks/useAddRecipeMutation";
+import { useEditRecipeMutation } from "@/hooks/useEditRecipeMutation";
 
 export default function Recipes() {
   // const queryClient = useQueryClient();
@@ -37,6 +38,7 @@ export default function Recipes() {
   // });
 
   const mutation = useAddRecipeMutation();
+  const editRecipeMutation = useEditRecipeMutation();
 
   // const [recipes, setRecipes] = useState<Recipe[]>([]);
   // const [loading, setLoading] = useState<boolean>(false);
@@ -77,10 +79,24 @@ export default function Recipes() {
     mutation.mutate(data);
   };
 
+  const handleEditRecipe = (
+    id: number,
+    updatedData: Partial<{
+      title: string;
+      description: string;
+      imageUrl: string;
+    }>
+  ) => {
+    editRecipeMutation.mutate({ id, data: updatedData });
+  };
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl mb-6">Рецепты</h1>
-      <RecipeForm onSubmit={handleAddRecipe} />
+      <div className="flex flex-row items-center justify-between mb-6">
+        <h1 className="text-3xl">Рецепты</h1>
+        <RecipeForm onSubmit={handleAddRecipe} />
+      </div>
+
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
         {recipes.map((recipe: Recipe) => (
           <RecipeCard
@@ -89,6 +105,7 @@ export default function Recipes() {
             title={recipe.title}
             description={recipe.description}
             image={recipe.imageUrl}
+            onEdit={handleEditRecipe}
           />
         ))}
       </ul>
