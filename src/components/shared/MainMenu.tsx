@@ -58,9 +58,13 @@ export default function MainMenu() {
         )}
 
         {!session && (
-          <div>
+          <div className="flex gap-3">
             <Link href="/auth/login">
               <button className="btn-primary">Войти</button>
+            </Link>
+
+            <Link href="/auth/register">
+              <button className="btn-primary">Регистрация</button>
             </Link>
           </div>
         )}
