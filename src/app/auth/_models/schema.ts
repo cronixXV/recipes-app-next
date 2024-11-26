@@ -10,3 +10,10 @@ export const passwordSchema = z.object({
 
 export type PasswordSchemaType = z.infer<typeof passwordSchema>;
 //инфер позволяет извлечь тип
+
+export const emailSchema = passwordSchema.omit({
+  password: true,
+});
+// omit исключает password из схемы
+
+export type EmailSchemaType = z.infer<typeof emailSchema>;

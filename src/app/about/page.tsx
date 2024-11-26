@@ -3,13 +3,15 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import authOptions from "@/configs/auth";
 
 export const metadata: Metadata = {
   title: "О нас",
 };
 
 export default async function AboutPage() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
+  console.log(session);
   if (!session) {
     redirect("/auth/login?callbackUrl=/about");
   }
