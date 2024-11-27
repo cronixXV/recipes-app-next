@@ -50,7 +50,6 @@ export default function RecipeCardModal(props: RecipeCardModalProps) {
       show={props.isOpen}
       onClose={props.onClose}
       size="md"
-      popup
     >
       <Modal.Header>
         {props.modalType === "add" && "Добавить рецепт"}
