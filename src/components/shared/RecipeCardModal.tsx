@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { Modal, TextInput, Textarea, Button, Label } from "flowbite-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 
 const recipeSchema = z.object({
   title: z.string().min(3, "Название должно быть не короче 3 символов"),
@@ -30,6 +31,12 @@ export default function RecipeCardModal(props: RecipeCardModalProps) {
     resolver: zodResolver(recipeSchema),
     defaultValues: props.initialData,
   });
+
+  useEffect(() => {
+    if (props.initialData) {
+      reset(props.initialData);
+    }
+  }, [props.initialData, reset]);
 
   const handleSave = (data: RecipeFormData) => {
     if (props.onSave) {
