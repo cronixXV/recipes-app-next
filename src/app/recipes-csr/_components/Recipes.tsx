@@ -1,7 +1,11 @@
 "use client";
 
 import RecipeCard from "@/components/recipes/RecipeCard";
-import { fetchRecipes, NewRecipe } from "@/server/api/recipes";
+import {
+  // fetchRecipes,
+  fetchSearchRecipes,
+  NewRecipe,
+} from "@/server/api/recipes";
 import type { Recipe } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useAddRecipeMutation } from "@/hooks/useAddRecipeMutation";
@@ -10,17 +14,22 @@ import RecipeCardModal from "@/components/shared/RecipeCardModal";
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { useDeleteRecipeMutation } from "@/hooks/useDeleteRecipeMutation";
+import SeactInput from "@/components/shared/SeactInput";
+import { useDebounce } from "@/hooks/useDebounce";
+// import { set } from "zod";
 
 export default function Recipes() {
+  const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 500);
   const {
     data: recipes,
     isPending,
     isError,
     error,
   } = useQuery({
-    queryKey: ["recipes"],
+    queryKey: ["recipes", debouncedQuery],
     //ключ, по которому хранится кэш
-    queryFn: () => fetchRecipes(),
+    queryFn: () => fetchSearchRecipes(debouncedQuery),
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,13 +38,13 @@ export default function Recipes() {
   const editRecipeMutation = useEditRecipeMutation();
   const deleteRecipeMutation = useDeleteRecipeMutation();
 
-  if (isPending) {
-    return <p className="text-center text-lg font-semibold">Загрузка</p>;
-  }
+  // if (isPending) {
+  //   return <p className="text-center text-lg font-semibold">Загрузка</p>;
+  // }
 
-  if (isError) {
-    return <p className="text-center text-lg text-red-500">{error.message}</p>;
-  }
+  // if (isError) {
+  //   return <p className="text-center text-lg text-red-500">{error.message}</p>;
+  // }
 
   const handleAddRecipe = async (data: NewRecipe) => {
     mutation.mutate(data);
@@ -59,7 +68,17 @@ export default function Recipes() {
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-row items-center justify-between mb-6">
+        <SeactInput onSearch={setQuery} />
         <h1 className="text-3xl">Рецепты</h1>
+
+        {isPending && (
+          <p className="text-center text-lg font-semibold">Загрузка</p>
+        )}
+
+        {isError && (
+          <p className="text-center text-lg text-red-500">{error.message}</p>
+        )}
+
         <Button onClick={() => setIsModalOpen(true)}>Добавить рецепт</Button>
 
         <RecipeCardModal
@@ -71,7 +90,7 @@ export default function Recipes() {
       </div>
 
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
-        {recipes.map((recipe: Recipe) => (
+        {recipes?.map((recipe: Recipe) => (
           <RecipeCard
             key={recipe.id}
             id={recipe.id}
@@ -83,6 +102,9 @@ export default function Recipes() {
           />
         ))}
       </ul>
+      {!isPending && recipes?.length === 0 && (
+        <p className="text-center text-gray-500 mt-6">Ничего не найдено</p>
+      )}
     </div>
   );
 }

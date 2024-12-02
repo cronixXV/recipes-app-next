@@ -5,8 +5,13 @@ import "./globals.css";
 import MainMenu from "@/components/shared/MainMenu";
 import { ThemeModeScript } from "flowbite-react";
 import Providers from "@/components/shared/Providers";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+import dynamic from "next/dynamic";
+const TostifyDynamic = dynamic(() => import("@/components/shared/Toastify"), {
+  ssr: true,
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -53,7 +58,8 @@ export default function RootLayout({
             © 2024 Все права защищены
           </footer>
         </Providers>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
+        <TostifyDynamic />
       </body>
     </html>
   );

@@ -101,6 +101,14 @@ export default function MainMenu() {
         >
           Рецепты
         </NavbarLink>
+
+        <NavbarLink
+          href="/upload"
+          as={Link}
+          active={pathname === "/upload"}
+        >
+          Загрузить
+        </NavbarLink>
       </NavbarCollapse>
     </Navbar>
   );
