@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 
 export default function RegisterForm() {
-  const [registerError, setRegisterError] = useState<string | null>(null);
+  const [registerError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -21,12 +21,9 @@ export default function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterSchemaType) => {
-    setRegisterError(null);
-    const { password, repeatPassword } = data;
-    if (password !== repeatPassword) {
-      setRegisterError("Пароли не совпадают");
-    }
+    console.log(data);
   };
+
   return (
     <form
       className="flex max-w-md flex-col gap-4"
