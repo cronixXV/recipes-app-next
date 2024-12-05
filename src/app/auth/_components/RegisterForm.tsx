@@ -6,9 +6,10 @@ import { registerSchema, RegisterSchemaType } from "@/app/auth/_models/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
-  const [registerError] = useState<string | null>(null);
+  const [registerError, setRegisterError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -20,8 +21,26 @@ export default function RegisterForm() {
     },
   });
 
+  const router = useRouter();
   const onSubmit = async (data: RegisterSchemaType) => {
-    console.log(data);
+    try {
+      const response = await fetch("/api/user/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        router.push("/");
+      } else {
+        setRegisterError(result.message || "Неизвестная ошибка");
+      }
+    } catch (error) {
+      setRegisterError("Произошла ошибка подключения");
+      console.error(error);
+    }
   };
 
   return (
