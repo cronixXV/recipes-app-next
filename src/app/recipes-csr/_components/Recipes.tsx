@@ -16,7 +16,6 @@ import { useState } from "react";
 import { useDeleteRecipeMutation } from "@/hooks/useDeleteRecipeMutation";
 import SeactInput from "@/components/shared/SeactInput";
 import { useDebounce } from "@/hooks/useDebounce";
-// import { set } from "zod";
 
 interface MyRecipe extends Recipe {
   chef?: Chef;
@@ -41,14 +40,6 @@ export default function Recipes() {
   const mutation = useAddRecipeMutation();
   const editRecipeMutation = useEditRecipeMutation();
   const deleteRecipeMutation = useDeleteRecipeMutation();
-
-  // if (isPending) {
-  //   return <p className="text-center text-lg font-semibold">Загрузка</p>;
-  // }
-
-  // if (isError) {
-  //   return <p className="text-center text-lg text-red-500">{error.message}</p>;
-  // }
 
   const handleAddRecipe = async (data: NewRecipe) => {
     mutation.mutate(data);
