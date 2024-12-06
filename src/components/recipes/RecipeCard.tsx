@@ -20,11 +20,11 @@ interface RecipeCardProps {
   image: string;
   chef?: string;
   rating?: number;
-  onEdit: (
+  onEdit?: (
     id: number,
     data: Partial<{ title: string; description: string; imageUrl: string }>
   ) => void;
-  onDelete: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
 export default function RecipeCard({
@@ -145,9 +145,9 @@ export default function RecipeCard({
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         initialData={{ title, description, imageUrl: image }}
-        onSave={(data) => onEdit(id, data)}
+        onSave={(data) => onEdit?.(id, data)}
         onDelete={() => {
-          onDelete(id);
+          onDelete?.(id);
           setIsModalOpen(false);
         }}
       />

@@ -29,7 +29,7 @@ async function fetchRecipes() {
 }
 
 interface MyRecipe extends Recipe {
-  Chef?: Chef;
+  chef?: Chef;
 }
 
 export default async function RecipesPage() {
@@ -46,7 +46,7 @@ export default async function RecipesPage() {
             description={recipe.description}
             image={recipe.imageUrl}
             rating={recipe.rating ?? 0}
-            chef={recipe.Chef?.name}
+            chef={recipe.chef?.name}
           />
         ))}
       </ul>

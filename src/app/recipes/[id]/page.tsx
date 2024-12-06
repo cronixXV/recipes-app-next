@@ -1,6 +1,10 @@
 import RecipeCard from "@/components/recipes/RecipeCard";
-import type { Recipe } from "@prisma/client";
+import type { Recipe, Chef } from "@prisma/client";
 import Link from "next/link";
+
+interface MyRecipe extends Recipe {
+  chef?: Chef;
+}
 
 async function fetchRecipeById(id: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes/${id}`, {
@@ -18,7 +22,7 @@ export default async function RecipesPage({
 }: {
   params: { id: string };
 }) {
-  const recipe: Recipe = await fetchRecipeById(params.id);
+  const recipe: MyRecipe = await fetchRecipeById(params.id);
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl mb-6">{recipe.title}</h1>
@@ -29,7 +33,7 @@ export default async function RecipesPage({
           description={recipe.description}
           image={recipe.imageUrl}
           rating={recipe.rating ?? 0}
-          chef={recipe.Chef?.name}
+          chef={recipe.chef?.name}
         />
       </ul>
       <div className="mt-8">
