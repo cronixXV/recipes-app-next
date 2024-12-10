@@ -6,7 +6,7 @@ import {
   fetchSearchRecipes,
   NewRecipe,
 } from "@/server/api/recipes";
-import type { Recipe } from "@prisma/client";
+import type { Recipe, Chef } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useAddRecipeMutation } from "@/hooks/useAddRecipeMutation";
 import { useEditRecipeMutation } from "@/hooks/useEditRecipeMutation";
@@ -16,7 +16,10 @@ import { useState } from "react";
 import { useDeleteRecipeMutation } from "@/hooks/useDeleteRecipeMutation";
 import SeactInput from "@/components/shared/SeactInput";
 import { useDebounce } from "@/hooks/useDebounce";
-// import { set } from "zod";
+
+interface MyRecipe extends Recipe {
+  chef?: Chef;
+}
 
 export default function Recipes() {
   const [query, setQuery] = useState("");
@@ -37,14 +40,6 @@ export default function Recipes() {
   const mutation = useAddRecipeMutation();
   const editRecipeMutation = useEditRecipeMutation();
   const deleteRecipeMutation = useDeleteRecipeMutation();
-
-  // if (isPending) {
-  //   return <p className="text-center text-lg font-semibold">Загрузка</p>;
-  // }
-
-  // if (isError) {
-  //   return <p className="text-center text-lg text-red-500">{error.message}</p>;
-  // }
 
   const handleAddRecipe = async (data: NewRecipe) => {
     mutation.mutate(data);
@@ -90,7 +85,7 @@ export default function Recipes() {
       </div>
 
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
-        {recipes?.map((recipe: Recipe) => (
+        {recipes?.map((recipe: MyRecipe) => (
           <RecipeCard
             key={recipe.id}
             id={recipe.id}
@@ -99,6 +94,8 @@ export default function Recipes() {
             image={recipe.imageUrl}
             onEdit={handleEditRecipe}
             onDelete={handleDeleteRecipe}
+            chef={recipe.chef?.name}
+            rating={recipe.rating ?? 0}
           />
         ))}
       </ul>
