@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/libs/prisma";
 import bcrypt from "bcryptjs";
-
-const prisma = new PrismaClient();
+import { registerSchema } from "@/app/auth/_models/schema";
 
 export async function GET() {
   return NextResponse.json({
@@ -13,21 +12,10 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password, repeatPassword } = await req.json();
+    const body = await req.json();
+    const parsedData = registerSchema.parse(body);
 
-    if (!email || !password) {
-      return NextResponse.json(
-        { message: "Email и пароль обязательны" },
-        { status: 400 }
-      );
-    }
-
-    if (password !== repeatPassword) {
-      return NextResponse.json(
-        { message: "Пароли не совпадают" },
-        { status: 400 }
-      );
-    }
+    const { email, password } = parsedData;
 
     // Проверка существующего пользователя
     const isUserExisting = await prisma.user.findUnique({
@@ -48,10 +36,11 @@ export async function POST(req: Request) {
     const newUser = await prisma.user.create({
       data: {
         email,
-        name,
         password: hashedPassword,
       },
     });
+
+    newUser.password = "";
 
     return NextResponse.json(
       { message: "Пользователь успешно создан", newUser },

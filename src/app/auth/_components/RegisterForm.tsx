@@ -7,14 +7,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-
-import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 
-const ToastifyDynamic = dynamic(
-  () => import("@/components/shared/ToastifyClient"),
-  { ssr: false }
-);
 export default function RegisterForm() {
   const [registerError, setRegisterError] = useState<string | null>(null);
   const {
@@ -136,7 +130,7 @@ export default function RegisterForm() {
         <Button type="submit">Зарегистрироваться</Button>
       </form>
 
-      <ToastifyDynamic />
+      {/* <ToastifyDynamic /> */}
     </>
   );
 }

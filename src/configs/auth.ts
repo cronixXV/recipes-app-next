@@ -25,12 +25,8 @@ const authOptions: AuthOptions = {
         password: { label: "Password", type: "password", required: true },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
-          throw new Error("Введите email и пароль");
-        }
-
         const { email, password } =
-          await passwordSchema.parseAsync(credentials); // вернется промис
+          await passwordSchema.parseAsync(credentials);
 
         const user = await prisma.user.findUnique({
           where: {
