@@ -5,6 +5,15 @@ await import("./src/libs/check.js");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  // images: {
+  //   remotePatterns: [
+  //     {
+  //       protocol: "https",
+  //       hostname: process.env.NEXT_PUBLIC_S3_HOST,
+  //       pathname: `/${process.env.NEXT_PUBLIC_S3_BUCKET_ID}/images/**`,
+  //     },
+  //   ],
+  // },
 };
 
 export default NextBundleAnalyzer({

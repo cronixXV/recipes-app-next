@@ -6,6 +6,7 @@ const recipes = [
     title: "Спагетти Карбонара",
     description: "Классическая итальянская паста.",
     imageUrl: "/images/carbonara.jpg",
+    // imageUrl: `${process.env.NEXT_PUBLIC_S3_URL}/images/carbonara.jpg`, // для картинок
     ingredients: [
       { name: "Спагетти", amount: "200 г" },
       { name: "Яйца", amount: "2 шт" },

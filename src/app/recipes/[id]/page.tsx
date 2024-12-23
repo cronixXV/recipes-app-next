@@ -1,20 +1,40 @@
 import RecipeCard from "@/components/recipes/RecipeCard";
-import type { Recipe, Chef } from "@prisma/client";
+import { prisma } from "@/libs/prisma";
+import type { Metadata } from "next";
+// import { fetchRecipeById } from "@/server/api/recipes";
+// import type { Recipe, Chef } from "@prisma/client";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
-interface MyRecipe extends Recipe {
-  chef?: Chef;
+// interface MyRecipe extends Recipe {
+//   chef?: Chef;
+// }
+
+// export const dynamicParams = false // по умолчанию true
+export const revalidate = 20; // ISR - Incremental Static Regeneration
+
+export async function generateStaticParams() {
+  // return [{ id: "1" }, { id: "2" }, { id: "3" }]
+  const items = await prisma.recipe.findMany({ select: { id: true } });
+  // console.log(items)
+
+  return items.map((recipe) => ({ id: recipe.id.toString() }));
 }
 
-async function fetchRecipeById(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes/${id}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("404");
-  }
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const id = (await params).id;
 
-  return await res.json();
+  const recipe = await prisma.recipe.findFirst({
+    where: { id: +id },
+  });
+
+  return {
+    title: recipe?.title ?? "404: страница не найдена",
+  };
 }
 
 export default async function RecipesPage({
@@ -22,7 +42,14 @@ export default async function RecipesPage({
 }: {
   params: { id: string };
 }) {
-  const recipe: MyRecipe = await fetchRecipeById(params.id);
+  // const recipe: MyRecipe = await fetchRecipeById(params.id);
+  const recipe = await prisma.recipe.findFirst({
+    where: { id: +params.id },
+    include: { ingredients: true },
+  });
+
+  if (!recipe) notFound();
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl mb-6">{recipe.title}</h1>
@@ -33,7 +60,7 @@ export default async function RecipesPage({
           description={recipe.description}
           image={recipe.imageUrl}
           rating={recipe.rating ?? 0}
-          chef={recipe.chef?.name}
+          // chef={recipe.chef?.name}
         />
       </ul>
       <div className="mt-8">
