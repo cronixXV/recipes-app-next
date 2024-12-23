@@ -1,39 +1,53 @@
 import RecipeCard from "@/components/recipes/RecipeCard";
 import type { Recipe, Chef } from "@prisma/client";
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import authOptions from "@/configs/auth";
+// import { getServerSession } from "next-auth";
+// import { redirect } from "next/navigation";
+// import authOptions from "@/configs/auth";
+import { prisma } from "@/libs/prisma";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Книга рецептов",
   description:
     "Книга рецептов. Делитесь любимыми рецептами и открывайте для себя новые",
+  // robots: {
+  //   index: true,
+  //   follow: true,
+  // },
 };
 
-async function fetchRecipes() {
-  const session = await getServerSession(authOptions);
+export const revalidate = 10;
 
-  if (!session) {
-    redirect("/auth/login?callbackUrl=/about");
-  }
+// async function fetchRecipes() {
+//   const session = await getServerSession(authOptions);
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("404");
-  }
+//   if (!session) {
+//     redirect("/auth/login?callbackUrl=/about");
+//   }
 
-  return await res.json();
-}
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipes`, {
+//     cache: "no-store",
+//   });
+//   if (!res.ok) {
+//     throw new Error("404");
+//   }
+
+//   return await res.json();
+// }
 
 interface MyRecipe extends Recipe {
   chef?: Chef;
 }
 
 export default async function RecipesPage() {
-  const recipes = await fetchRecipes();
+  // const recipes = await fetchRecipes();
+  const recipes = await prisma.recipe.findMany({
+    include: { ingredients: true },
+  });
+
+  if (!recipes) notFound();
+  // console.log(recipes)
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl mb-6">Рецепты</h1>
